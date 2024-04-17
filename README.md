@@ -1,1 +1,13 @@
-# COS30045-Project
+# COS30045-Data Visualization
+
+Group Name - xxxxx
+
+Group Members Details
+- Name: Sandith Gunawickrema
+- Student ID: 104206857
+- Email: [104206857@student.swin.edu.au](mailto:104206857@student.swin.edu.au), [sandith1225@gmail.com](mailto:sandith1225@gmail.com)
+
+
+- Name: Savindu Wickramasinghe
+- Student ID: 104834960
+- Email: [104834960@student.swin.edu.au](mailto:104834960@student.swin.edu.au), [savinduwickr@gmail.com](mailto:savinduwickr@gmail.com)
