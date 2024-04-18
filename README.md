@@ -1,6 +1,6 @@
 # COS30045-Data Visualization
 
-Group Name - xxxxx
+Group Name - HD Group
 
 Group Members Details
 - Name: Sandith Gunawickrema
