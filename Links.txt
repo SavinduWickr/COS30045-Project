@@ -1,0 +1,7 @@
+
+Savindu Visualizations
+Level of GDP per capita and productivity
+https://stats.oecd.org/Index.aspx?DataSetCode=PDB_LV
+
+Life Expectancy
+https://stats.oecd.org/index.aspx?queryid=30114#

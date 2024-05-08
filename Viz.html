@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Expectancy Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+<h2>Life Expectancy by Group</h2>
+<label for="variable-select">Choose a Group:</label>
+<select id="variable-select">
+    <option value="Females at birth">Females at birth</option>
+    <option value="Females at age 40">Females at age 40</option>
+    <option value="Females at age 60">Females at age 60</option>
+    <option value="Females at age 65">Females at age 65</option>
+    <option value="Females at age 80">Females at age 80</option>
+    <option value="Males at birth">Males at birth</option>
+    <option value="Males at age 40">Males at age 40</option>
+    <option value="Males at age 60">Males at age 60</option>
+    <option value="Males at age 65">Males at age 65</option>
+    <option value="Males at age 80">Males at age 80</option>
+    <option value="Total population at birth">Total population at birth</option>
+</select>
+<svg width="800" height="500"></svg>
+
+<script src="life.js"></script>
+</body>
+</html>
