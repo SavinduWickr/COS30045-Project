@@ -3,17 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life Expectancy Heatmap</title>
+    <title>Life Expectancy Visualization</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        #tooltip {
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #d3d3d3;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+            opacity: 0.9;
+        }
+        .grid line {
+            stroke: lightgray;
+            stroke-opacity: 0.7;
+            shape-rendering: crispEdges;
+        }
+        .grid path {
+            stroke-width: 0;
+        }
+    </style>
 </head>
 <body>
-<h2>Life Expectancy Heatmap</h2>
+<h2>Life Expectancy by Group</h2>
 <label for="variable-select">Choose a Group:</label>
 <select id="variable-select">
-    <option value="Total population at birth">Total population at birth</option>
     <option value="Females at birth">Females at birth</option>
     <option value="Females at age 40">Females at age 40</option>
     <option value="Females at age 60">Females at age 60</option>
@@ -24,14 +40,14 @@
     <option value="Males at age 60">Males at age 60</option>
     <option value="Males at age 65">Males at age 65</option>
     <option value="Males at age 80">Males at age 80</option>
+    <option value="Total population at birth">Total population at birth</option>
 </select>
 <div id="tooltip" style="position: absolute; opacity: 0;"></div>
-<svg width="960" height="600"></svg>
-<div id="year-slider">
-    <label for="year">Year: <span id="year-value"></span></label>
-    <input type="range" id="year" min="2018" max="2022" value="2018" step="1">
+<svg width="1000" height="800"></svg>
+<div id="legend-container" style="width: 150px; height: 800px; overflow-y: auto; position: absolute; right: 0; top: 50px;">
+    <svg id="legend-svg" width="150" height="1000"></svg>
 </div>
-<div id="legend"></div>
-<script src="world_heatmap.js"></script>
+
+<script src="life.js"></script>
 </body>
 </html>
