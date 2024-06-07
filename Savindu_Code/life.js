@@ -1,4 +1,5 @@
 d3.csv("Data_Files/HEALTH_STAT.csv").then(data => {
+    console.log(data);
     const svg = d3.select("svg");
     const margin = { top: 50, right: 150, bottom: 100, left: 50 };
     const width = +svg.attr("width") - margin.left - margin.right;
@@ -15,7 +16,9 @@ d3.csv("Data_Files/HEALTH_STAT.csv").then(data => {
         .y(d => y(d.Value));
 
     function update(selectedVar) {
+        console.log(`Selected variable: ${selectedVar}`);
         const filteredData = data.filter(d => d.Variable === selectedVar);
+        console.log(filteredData);
         x.domain(d3.extent(filteredData, d => d.Year));
         y.domain([d3.min(filteredData, d => d.Value) - 4, d3.max(filteredData, d => d.Value)]);
 

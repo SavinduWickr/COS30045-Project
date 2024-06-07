@@ -1,3 +1,4 @@
+// world_heatmap.js
 const width = 960;
 const height = 600;
 
@@ -19,25 +20,19 @@ d3.json("https://d3js.org/world-110m.v1.json").then(worldData => {
     d3.csv("Data_Files/HEALTH_STAT.csv").then(data => {
         const countries = topojson.feature(worldData, worldData.objects.countries).features;
 
-        // Log GeoJSON country properties to verify the country codes
-        console.log(countries.map(country => country.properties));
-
-        // Prepare data mapping using iso_a3 or another appropriate code
+        // Prepare data mapping using the 3-letter ISO country codes
         const dataMap = d3.rollup(data, v => d3.mean(v, d => +d.Value), d => d.COU, d => d.Variable);
 
-        // Function to update the map based on selected variable
+        // Function to update the map based on the selected variable
         function update(selectedVar) {
             const countryData = new Map();
             countries.forEach(country => {
-                const countryCode = country.properties.iso_a3;  // Adjust if your country codes are different
+                const countryCode = country.properties.iso_a3;  // Use the 3-letter ISO country codes
                 const countryValue = dataMap.get(countryCode)?.get(selectedVar);
                 if (countryValue) {
                     countryData.set(countryCode, countryValue);
                 }
             });
-
-            // Log countryData to verify the mapping
-            console.log(countryData);
 
             // Update the map with new data
             svg.selectAll("path")
@@ -48,10 +43,11 @@ d3.json("https://d3js.org/world-110m.v1.json").then(worldData => {
                     const value = countryData.get(d.properties.iso_a3);
                     return value ? color(value) : "#ccc";  // Gray for missing data
                 })
-                .on("mouseover", function(event, d) {
+                .on("click", function(event, d) {
                     const value = countryData.get(d.properties.iso_a3);
                     tooltip.style("opacity", 1);
                     tooltip.html(`Country: ${d.properties.name}<br>Life Expectancy: ${value ? value.toFixed(2) : "N/A"}`);
+                    // Add code to filter and update the detailed view using life.js
                 })
                 .on("mousemove", function(event) {
                     tooltip.style("left", (event.pageX + 10) + "px")
