@@ -25,6 +25,15 @@
             display: block;
             margin: auto;
         }
+        #legend {
+            margin: auto;
+            width: 300px;
+            height: 50px;
+        }
+        #year-slider {
+            width: 80%;
+            margin: 20px auto;
+        }
     </style>
 </head>
 <body>
@@ -45,6 +54,11 @@
 </select>
 <div id="tooltip" style="position: absolute; opacity: 0;"></div>
 <svg width="960" height="600"></svg>
+<div id="year-slider">
+    <label for="year">Year: <span id="year-value"></span></label>
+    <input type="range" id="year" min="2018" max="2022" value="2018" step="1">
+</div>
+<div id="legend"></div>
 <script src="world_heatmap.js"></script>
 </body>
 </html>

@@ -280,21 +280,35 @@ d3.json("https://d3js.org/world-110m.v1.json").then(worldData => {
         console.log("Countries Data:", countries); // Log countries data
 
         // Prepare data mapping using the 3-letter ISO country codes
-        const dataMap = d3.rollup(data, v => d3.mean(v, d => +d.Value), d => d.COU, d => d.Variable);
+        const dataMap = d3.rollup(data, v => ({
+            meanValue: d3.mean(v, d => +d.Value),
+            countryName: v[0].Country
+        }), d => d.COU, d => `${d.Variable}-${d.YEA}`);
         console.log("Data Map:", dataMap); // Debugging output
 
-        // Function to update the map based on the selected variable
-        function update(selectedVar) {
+        // Function to update the map based on the selected variable and year
+        function update(selectedVar, selectedYear) {
+            const yearKey = `${selectedVar}-${selectedYear}`;
             const countryData = new Map();
+            let minValue = Infinity, maxValue = -Infinity;
+
             countries.forEach(country => {
                 const countryCode = countryCodeMap[country.id];  // Use the mapped country codes
-                const countryValue = dataMap.get(countryCode)?.get(selectedVar);
-                console.log(`Country: ${countryCode}, Value: ${countryValue}`); // Debugging output
-                if (countryValue) {
-                    countryData.set(countryCode, countryValue);
+                const countryInfo = dataMap.get(countryCode)?.get(yearKey);
+                console.log(`Country: ${countryCode}, Info: ${countryInfo}`); // Debugging output
+                if (countryInfo) {
+                    countryData.set(countryCode, countryInfo);
+                    minValue = Math.min(minValue, countryInfo.meanValue);
+                    maxValue = Math.max(maxValue, countryInfo.meanValue);
                 }
             });
             console.log("Country Data:", countryData); // Debugging output
+
+            // Update color scale domain based on the current data
+            color.domain([minValue, maxValue]);
+
+            // Update the legend
+            updateLegend(minValue, maxValue);
 
             // Update the map with new data
             svg.selectAll("path")
@@ -302,13 +316,13 @@ d3.json("https://d3js.org/world-110m.v1.json").then(worldData => {
                 .join("path")
                 .attr("d", path)
                 .attr("fill", d => {
-                    const value = countryData.get(countryCodeMap[d.id]);
-                    return value ? color(value) : "#ccc";  // Gray for missing data
+                    const info = countryData.get(countryCodeMap[d.id]);
+                    return info ? color(info.meanValue) : "#ccc";  // Gray for missing data
                 })
-                .on("click", function(event, d) {
-                    const value = countryData.get(countryCodeMap[d.id]);
+                .on("mouseover", function(event, d) {
+                    const info = countryData.get(countryCodeMap[d.id]);
                     tooltip.style("opacity", 1);
-                    tooltip.html(`Country: ${d.properties.name}<br>Life Expectancy: ${value ? value.toFixed(2) : "N/A"}`);
+                    tooltip.html(`Country: ${info ? info.countryName : 'N/A'}<br>Life Expectancy: ${info ? info.meanValue.toFixed(2) : "N/A"}`);
                 })
                 .on("mousemove", function(event) {
                     tooltip.style("left", (event.pageX + 10) + "px")
@@ -316,16 +330,126 @@ d3.json("https://d3js.org/world-110m.v1.json").then(worldData => {
                 })
                 .on("mouseout", function() {
                     tooltip.style("opacity", 0);
+                })
+                .on("click", function(event, d) {
+                    const [[x0, y0], [x1, y1]] = path.bounds(d);
+                    event.stopPropagation();
+                    svg.transition().duration(750).call(
+                        zoom.transform,
+                        d3.zoomIdentity
+                            .translate(width / 2, height / 2)
+                            .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+                            .translate(-(x0 + x1) / 2, -(y0 + y1) / 2)
+                    );
                 });
+
+            // Reset zoom on background click
+            svg.on("click", () => {
+                svg.transition().duration(750).call(
+                    zoom.transform,
+                    d3.zoomIdentity
+                        .translate(width / 2, height / 2)
+                        .scale(1)
+                );
+            });
         }
+
+        // Function to create the legend
+        function createLegend() {
+            const legendWidth = 300;
+            const legendHeight = 10;
+
+            const legendSvg = d3.select("#legend")
+                .append("svg")
+                .attr("width", legendWidth)
+                .attr("height", legendHeight);
+
+            const gradient = legendSvg.append("defs")
+                .append("linearGradient")
+                .attr("id", "gradient")
+                .attr("x1", "0%")
+                .attr("x2", "100%")
+                .attr("y1", "0%")
+                .attr("y2", "0%");
+
+            gradient.append("stop")
+                .attr("offset", "0%")
+                .attr("stop-color", color(50))
+                .attr("stop-opacity", 1);
+
+            gradient.append("stop")
+                .attr("offset", "100%")
+                .attr("stop-color", color(90))
+                .attr("stop-opacity", 1);
+
+            legendSvg.append("rect")
+                .attr("width", legendWidth)
+                .attr("height", legendHeight)
+                .style("fill", "url(#gradient)");
+
+            const legendScale = d3.scaleLinear()
+                .domain([50, 90])
+                .range([0, legendWidth]);
+
+            const legendAxis = d3.axisBottom(legendScale)
+                .ticks(5)
+                .tickFormat(d3.format(".0f"));
+
+            legendSvg.append("g")
+                .attr("transform", `translate(0,${legendHeight})`)
+                .call(legendAxis);
+        }
+
+        // Function to update the legend
+        function updateLegend(minValue, maxValue) {
+            const legendWidth = 300;
+            const legendHeight = 10;
+
+            const legendSvg = d3.select("#legend svg");
+            const gradient = legendSvg.select("linearGradient");
+
+            gradient.selectAll("stop")
+                .data([
+                    { offset: "0%", color: color(minValue) },
+                    { offset: "100%", color: color(maxValue) }
+                ])
+                .join("stop")
+                .attr("offset", d => d.offset)
+                .attr("stop-color", d => d.color)
+                .attr("stop-opacity", 1);
+
+            const legendScale = d3.scaleLinear()
+                .domain([minValue, maxValue])
+                .range([0, legendWidth]);
+
+            const legendAxis = d3.axisBottom(legendScale)
+                .ticks(5)
+                .tickFormat(d3.format(".0f"));
+
+            legendSvg.select("g")
+                .call(legendAxis);
+        }
+
+        // Create the legend
+        createLegend();
+
+        // Initial update to setup the map with the first selected value
+        const initialYear = document.getElementById("year").value;
+        update(document.getElementById("variable-select").value, initialYear);
 
         // Update map when dropdown value changes
         d3.select("#variable-select").on("change", function() {
-            update(this.value);
+            update(this.value, document.getElementById("year").value);
         });
 
-        // Initial update to setup the map with the first selected value
-        update(document.getElementById("variable-select").value);
+        // Update map when year slider changes
+        d3.select("#year").on("input", function() {
+            document.getElementById("year-value").textContent = this.value;
+            update(document.getElementById("variable-select").value, this.value);
+        });
+
+        // Set initial year display
+        document.getElementById("year-value").textContent = initialYear;
     }).catch(error => {
         console.error('Error loading CSV data:', error);
     });
