@@ -12,6 +12,7 @@ function init() {
         width = 800 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
+        //Append svg for chart1 division
     const svg = d3.select("#chart1")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -22,7 +23,7 @@ function init() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     const x0 = d3.scaleBand()
-        .domain(data.map(d => d.group))
+        .domain(data.map(d => d.group)) //getting the domain according to the areas
         .range([0, width])
         .padding(0.1);
 
@@ -37,8 +38,9 @@ function init() {
 
     const color = d3.scaleOrdinal()
         .domain(['2017', '2020'])
-        .range(["#1f77b4", "#ff7f0e"]);
+        .range(["#1f77b4", "#ff7f0e"]); //Colors for 2017 and 2020
 
+        //Tooltip appending
     const tooltip = d3.select("body")
         .append("div")
         .attr("class", "tooltip")
@@ -50,6 +52,9 @@ function init() {
         .style("border-radius", "3px")
         .style("position", "absolute");
 
+
+
+        //Update chart function according to the buttons
     function updateChart(years) {
         svg.selectAll("*").remove();
 
@@ -80,6 +85,7 @@ function init() {
                 });
         });
 
+        //appending axis labels for x and y axises
         svg.append("g")
             .call(d3.axisLeft(y));
 
@@ -127,7 +133,7 @@ function init() {
 
     updateChart(['2017', '2020']);
 
-    window.updateChart = updateChart;  // Expose the function globally for button events
+    window.updateChart = updateChart;  // Function is global to reference with the buttons
 }
 
 window.onload = init;

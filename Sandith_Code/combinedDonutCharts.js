@@ -17,6 +17,7 @@ const chartData = {
     }
 };
 
+//color chart according to legend
 const colors = {
     AFR: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
     AMR: ['#4BC0C0', '#9966FF', '#FF9F40', '#C9CBCF'],
@@ -26,6 +27,7 @@ const colors = {
     WPR: ['#FF6384', '#C9CBCF', '#FFCE56', '#36A2EB']
 };
 
+//descriptions on the tooltip
 const descriptions = {
     AFR: ['Does not exist', 'Exist but not functioning well', 'Provides irregular/partial inspection on mental health facilities', 'Provides regular inspection on mental health facilities'],
     AMR: ['Does not exist', 'Exist but not functioning well', 'Provides irregular/partial inspection on mental health facilities', 'Provides regular inspection on mental health facilities'],
@@ -50,8 +52,10 @@ function displayChart() {
 
     const radius = Math.min(width, height) / 2 - margin;
 
+    
     d3.select("#chart").select("svg").remove();
 
+    //appending svg to chart div
     const svg = d3.select("#chart")
         .append("svg")
         .attr("width", width)
@@ -59,12 +63,15 @@ function displayChart() {
         .append("g")
         .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
+        //appending pie chart accordign to numerical value
     const pie = d3.pie()
         .value(d => d)
         .sort(null);
 
+        //binding data to teh pie chart
     const data_ready = pie(data);
 
+    //making it as a donut. creating arcs
     const arc = d3.arc()
         .innerRadius(radius * 0.5)
         .outerRadius(radius * 0.8);
@@ -85,12 +92,13 @@ function displayChart() {
         })
         .on('mousemove', function(event) {
             tooltip.style('left', (event.pageX + 10) + 'px')
-                .style('top', (event.pageY) + 'px');
+                .style('top', (event.pageY) + 'px'); //changing the tooltip according to the movement of mouse
         })
         .on('mouseout', function() {
             tooltip.style('display', 'none');
         });
 
+        //legend part
         const legend = svg.append('g')
         .attr('transform', `translate(${radius + 20}, ${-radius})`)
         .attr('class', 'legend');
