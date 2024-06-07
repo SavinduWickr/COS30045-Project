@@ -2,50 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About the Project</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <title>About Us</title>
+    <link rel="stylesheet" href="styles/AboutUs.css">
+    <link rel="stylesheet" href="styles/PageTransition.css">
+
 </head>
 <body>
+<div id="top-of-page"></div>
+
 <header>
-    <h1><a href="index.html" class="nav-link">Data Visualization Project</a></h1>
-    <nav>
-        <a href="index.html" class="nav-link">Home</a> |
-        <a href="about.html" class="nav-link">About</a> |
-        <a href="details.html" class="nav-link">Details</a>
+    <h2 class="logo">Data Visualisation</h2>
+    <nav class="menu">
+        <a href="index.html">Home</a>
+        <a href="details.html">Project Details</a>
+        <a href="about.html">About Us</a>
     </nav>
 </header>
-
-<div class="content">
-    <h2>Project Title: Data Visualisation Project</h2>
-    <h3>By Sanditha & Savindu</h3>
-    <p>This project visualizes various data sets related to life expectancy, mental health, and more using D3.js. Below are the links to the individual visualizations:</p>
-    <ul>
-        <div class="visualizations">
-            <img src="assets/lifeChart.png" alt="Life Expectancy Visualization" class="viz-thumbnail" onclick="window.location.href='Visualizations/LineChart/Viz.html'">
-            <img src="assets/heatmap.png" alt="Heatmap Visualization" class="viz-thumbnail" onclick="window.location.href='Visualizations/Heatmap/HeatMap.html'">
-            <img src="assets/BarChart.png" alt="BarChart Visualization" class="viz-thumbnail" onclick="window.location.href='Visualizations/BarChart/pageBarChart.html'">
-            <img src="assets/DonutChart.png" alt="Donut Chart Visualization" class="viz-thumbnail" onclick="window.location.href='Visualizations/DonutChart/combinedDonutCharts.html'">
+<div class="container">
+    <h1>About Us</h1>
+    <p>Details on the team</p>
+    <h1>Our Team</h1>
+    <div class="content">
+        <div class="contact-card">
+            <img src="images/savindu.jpg" alt="profile_img">
+            <h2>Savindu<br>Wickramasinghe</h2><br>
+            <h3>Front-End<br>Development</h3>
+            <br>
+            <h4>Contact Me</h4>
+            <span>
+            <a href="mailto:savinduwickr@gmail.com"><img src="images/mail.png" alt="mail"></a>
+        </span>
+            <h4>Student ID: 104834960</h4>
         </div>
-
-    </ul>
-    <div class="contact-info">
-        <h3>Contact Information</h3>
-        <p>Name: Sanditha</p>
-        <p>Student ID: 104206857</p>
-        <p>Email: <a href="mailto:104206857@student.swin.edu.au">104206857@student.swin.edu.au</a></p>
-        <p>Name: Savindu Wickramasinghe</p>
-        <p>Student ID: 104834960</p>
-        <p>Email: <a href="mailto:104834960@student.swin.edu.au">104834960@student.swin.edu.au</a></p>
+        <div class="contact-card">
+            <img src="images/Sandith.jpg" alt="profile_img">
+            <h2>Sandith<br>Gunawickrema</h2><br>
+            <h3>Front-End<br>Development</h3>
+            <br>
+            <h4>Contact Me</h4>
+            <span>
+            <a href="mailto:savinduwickr@gmail.com"><img src="images/mail.png" alt="mail"></a>
+        </span>
+            <h4>Student ID: 104834960</h4>
+        </div>
     </div>
 </div>
+<hr>
 <footer>
     <p>&copy; 2024 Sanditha & Savindu</p>
     <p>
         <a href="https://github.com/SavinduWickr/COS30045-Project" class="footer-link" target="_blank">View on GitHub</a>
     </p>
 </footer>
+
+
 
 </body>
 </html>
