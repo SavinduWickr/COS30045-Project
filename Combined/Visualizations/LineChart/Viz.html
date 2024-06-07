@@ -24,6 +24,85 @@
         .grid path {
             stroke-width: 0;
         }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+
+        select, button {
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        select:focus, button:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        #chart {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 6px;
+            font: 20px sans-serif;
+            background: rgb(14, 15, 17);
+            color: #fff;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .legend {
+            font-size: 14px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .legend g {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend rect {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
