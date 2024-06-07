@@ -7,6 +7,10 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
         #tooltip {
             position: absolute;
             background-color: #f9f9f9;
@@ -17,12 +21,17 @@
             color: #333;
             opacity: 0.9;
         }
+        svg {
+            display: block;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
 <h2>Life Expectancy Heatmap</h2>
 <label for="variable-select">Choose a Group:</label>
 <select id="variable-select">
+    <option value="Total population at birth">Total population at birth</option>
     <option value="Females at birth">Females at birth</option>
     <option value="Females at age 40">Females at age 40</option>
     <option value="Females at age 60">Females at age 60</option>
@@ -33,11 +42,9 @@
     <option value="Males at age 60">Males at age 60</option>
     <option value="Males at age 65">Males at age 65</option>
     <option value="Males at age 80">Males at age 80</option>
-    <option value="Total population at birth">Total population at birth</option>
 </select>
 <div id="tooltip" style="position: absolute; opacity: 0;"></div>
 <svg width="960" height="600"></svg>
-
 <script src="world_heatmap.js"></script>
 </body>
 </html>
